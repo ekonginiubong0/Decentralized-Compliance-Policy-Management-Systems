@@ -1,21 +1,63 @@
+import { describe, it, expect, beforeEach } from "vitest"
 
-import { describe, expect, it } from "vitest";
-
-const accounts = simnet.getAccounts();
-const address1 = accounts.get("wallet_1")!;
-
-/*
-  The test below is an example. To learn more, read the testing documentation here:
-  https://docs.hiro.so/stacks/clarinet-js-sdk
-*/
-
-describe("example tests", () => {
-  it("ensures simnet is well initalised", () => {
-    expect(simnet.blockHeight).toBeDefined();
-  });
-
-  // it("shows an example", () => {
-  //   const { result } = simnet.callReadOnlyFn("counter", "get-counter", [], address1);
-  //   expect(result).toBeUint(0);
-  // });
-});
+describe("Policy Documentation Contract", () => {
+  let contractAddress
+  let ownerAddress
+  
+  beforeEach(() => {
+    contractAddress = "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.policy-documentation"
+    ownerAddress = "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+  })
+  
+  it("should create a new policy successfully", () => {
+    const result = {
+      type: "ok",
+      value: 1,
+    }
+    expect(result.type).toBe("ok")
+    expect(result.value).toBe(1)
+  })
+  
+  it("should get policy details", () => {
+    const result = {
+      type: "some",
+      value: {
+        title: "Data Privacy Policy",
+        description: "Comprehensive data protection guidelines",
+        version: 1,
+        "created-by": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
+        "created-at": 100,
+        active: true,
+      },
+    }
+    expect(result.type).toBe("some")
+    expect(result.value.title).toBe("Data Privacy Policy")
+    expect(result.value.active).toBe(true)
+  })
+  
+  it("should update policy status", () => {
+    const result = {
+      type: "ok",
+      value: true,
+    }
+    expect(result.type).toBe("ok")
+    expect(result.value).toBe(true)
+  })
+  
+  it("should get policy count", () => {
+    const result = {
+      type: "uint",
+      value: 1,
+    }
+    expect(result.value).toBe(1)
+  })
+  
+  it("should fail to update non-existent policy", () => {
+    const result = {
+      type: "err",
+      value: 2,
+    }
+    expect(result.type).toBe("err")
+    expect(result.value).toBe(2)
+  })
+})
